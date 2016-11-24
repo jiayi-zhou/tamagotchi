@@ -27,3 +27,54 @@ struct stats {
   int happiness;
   int hygiene;
 };
+
+
+int count = 3;
+
+int xdirect = 0;
+int ydirect = 0;
+int jump = 0;
+
+ void printFrog() {
+
+  if (xpos == 128 - 16) {
+    xdirect = 1;
+  }
+  if (xpos == 0) {
+    xdirect = 0;
+  }
+  if (ypos == 10) {
+    ydirect = 1;
+  }
+  if (ypos == 5) {
+    ydirect = 0;
+  }
+
+
+  if((xpos/10)%2 == 0){
+    if (ypos > 5 && ydirect == 1) {
+      ypos--;
+    } else if (ypos < 10 && ydirect == 0) {
+      ypos++;
+    }
+  }else if((xpos/10)%2 == 1){
+    ypos == 10;
+  }
+
+  if (xpos < 128 - 16 && xdirect == 0) {
+    OrbitOledMoveTo(xpos++, ypos);
+  }
+
+  else {
+    if (xpos > 0 && xdirect == 1) {
+      OrbitOledMoveTo(xpos--, ypos);
+    }
+  }
+  OrbitOledPutBmp(16, 17, frog);
+  //jump++;
+}
+
+ void printFish() {
+  OrbitOledMoveTo(24, 0);
+  OrbitOledPutBmp(20, 19, fish);
+}

@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <Wire.h>
 
+void printFrog();
+void printFish();
+
 void WireInit();
 void GameInit() {
   OrbitOledInit();
@@ -17,64 +20,6 @@ void GameInit() {
   //  OrbitOledSetDrawColor('p');
 }
 
-int count = 3;
-
-static void printHello() {
-  count++;
-  OrbitOledMoveTo(count, 24);
-  OrbitOledDrawString("Hello");
-  if (count == 128) {
-    count = 0;
-  }
-
-}
-int xdirect = 0;
-int ydirect = 0;
-int jump = 0;
-
-static void printFrog() {
-
-  if (xpos == 128 - 16) {
-    xdirect = 1;
-  }
-  if (xpos == 0) {
-    xdirect = 0;
-  }
-  if (ypos == 10) {
-    ydirect = 1;
-  }
-  if (ypos == 5) {
-    ydirect = 0;
-  }
-
-
-  if((xpos/10)%2 == 0){
-    if (ypos > 5 && ydirect == 1) {
-      ypos--;
-    } else if (ypos < 10 && ydirect == 0) {
-      ypos++;
-    }
-  }else if((xpos/10)%2 == 1){
-    ypos == 10;
-  }
-
-  if (xpos < 128 - 16 && xdirect == 0) {
-    OrbitOledMoveTo(xpos++, ypos);
-  }
-
-  else {
-    if (xpos > 0 && xdirect == 1) {
-      OrbitOledMoveTo(xpos--, ypos);
-    }
-  }
-  OrbitOledPutBmp(16, 17, frog);
-  //jump++;
-}
-
-static void printFish() {
-  OrbitOledMoveTo(24, 0);
-  OrbitOledPutBmp(20, 19, fish);
-}
 
 void setup() {
   WireInit();
@@ -95,9 +40,6 @@ void loop() {
   OrbitOledUpdate();
   delay(50);
   //  OrbitOledClear();
-  Serial.print(ypos);
-  Serial.print("\n");
-  //Serial.print(jump);
-  Serial.print("\n");
+  
 }
 
