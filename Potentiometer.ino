@@ -120,6 +120,7 @@ void potentiometer(){
   OrbitOledSetCursor(8, 4);
   if(szAIN[2] >= '0' && szAIN[2] < '3'){
     OrbitOledPutString("Feeding");
+    
   }
   else if(szAIN[2] >= '3' && szAIN[2] < '5'){
     OrbitOledPutString("Cleaning");

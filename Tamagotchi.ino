@@ -10,7 +10,7 @@
 #include <math.h>
 #include <stdio.h>
 
-
+void potentiometer();
 void DeviceInit();
 void WireInit();
 void GameInit() {
@@ -21,7 +21,6 @@ void GameInit() {
   OrbitOledSetDrawMode(modOledSet);
   //  OrbitOledSetDrawColor('p');
 }
-
 void DeviceInit();
 void OrbitSetOled();
 
@@ -29,33 +28,36 @@ void movement();
 void printFrog();
 
 void printFish();
-
+void bopIt();
 static void back(){
     OrbitOledMoveTo(64, 0);
     OrbitOledLineTo(64, 32);
     OrbitOledMoveTo(68, 0);
     OrbitOledDrawString("health");
-  movement();
+    movement();
 }
 void setup() {
-  WireInit();
-  GameInit();
-  DeviceInit();
   Serial.begin(9600);
-  delay(100);
+ WireInit();
+GameInit();
+ DeviceInit();
+  
+  
 
 }
 
 void loop() {
-  potentiometer();
-  back();
-  printFrog();
+  bopIt();
+  /*potentiometer();
+ back();
+ printFrog();
 
   //printFish();
+  
   // put your main code here, to run repeatedly:
   OrbitOledUpdate();
-      delay(60);
+      delay(70);
 
-    OrbitOledClear();
+  OrbitOledClear();*/
     
 }
