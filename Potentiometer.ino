@@ -49,11 +49,12 @@ void potentiometer(){
     currentMenuPage = Stats;
   }
   
-  if(gameMenuState.buttons[0].isRising && pageEnter == 0){
-//    pageEnter == 1;
+  while(gameMenuState.buttons[1].isRising){
+    pageEnter = 1;
+    Serial.print(pageEnter);
     OrbitOledClearBuffer();
     OrbitOledClear();
-    selectionScreen(currentMenuPage);
+    selectionScreen(currentMenuPage, pageEnter);
   }
   Serial.print(value);
   Serial.print("\n");

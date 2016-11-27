@@ -12,10 +12,6 @@
 
 #include  "delay.h"
 
-const uint32_t SwitchCount = 2;
-const uint32_t ButtonCount = 2;
-const uint32_t Switches[SwitchCount] = { PA_7, PA_6 };
-const uint32_t Buttons[ButtonCount] = { PD_2, PE_0 };
 
 struct ButtonState
 {

@@ -13,6 +13,7 @@ const uint32_t SwitchCount = 2;
 const uint32_t ButtonCount = 2;
 const uint32_t Switches[SwitchCount] = { PA_7, PA_6 };
 const uint32_t Buttons[ButtonCount] = { PD_2, PE_0 };
+int pageEnter = 0;
 
 void potentiometer();
 void DeviceInit();
@@ -34,20 +35,7 @@ void GameInit() {
 
 void DeviceInit();
 void OrbitSetOled();
-
-void movement();
-void printFrog();
-
-void printFish();
 void bopIt();
-static void back(){
-    OrbitOledMoveTo(64, 0);
-    OrbitOledLineTo(64, 32);
-    OrbitOledMoveTo(68, 0);
-    OrbitOledDrawString("health");
-    movement();
-    
-}
 void setup() {
   Serial.begin(9600);
  WireInit();
@@ -64,9 +52,6 @@ void loop() {
   //printFish();
   
   // put your main code here, to run repeatedly:
-  OrbitOledUpdate();
-      delay(70);
 
-  OrbitOledClear();
     
 }

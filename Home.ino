@@ -1,10 +1,10 @@
-static void homeScreen(){
-  printTama(frog);
-  back();
-  potentiometer();
-  OrbitOledUpdate();
-//  OrbitOledClear();
 
+static void homeScreen(){
+   printTama(frog);
+   homeBackground();
+   potentiometer();
+   OrbitOledUpdate();
+   delay(70);
 }
 
 static void homeBackground(){

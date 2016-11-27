@@ -8,15 +8,17 @@ static enum pages{
   Stats = 4,
   Games = 5
 } currentMenuPage;
-int pageEnter;
 
 struct menuState{
   struct ButtonState buttons [2];
 }gameMenuState;
 
 static void feedingPage(){
- OrbitOledMoveTo(0,0);
- OrbitOledDrawString("Food!");
+//   ;
+   OrbitOledDrawString("Pick a food.");
+   if(gameInputState.buttons[1].isRising){
+    
+  }
 }
 
 static void cleaningPage(){
@@ -39,41 +41,27 @@ static void gamesPage(){
  OrbitOledDrawString("Choose a game!");
 }
 
-void selectionScreen(int pageNumber){
+void selectionScreen(int pageNumber, int pageEnter){
   switch(pageNumber){
     case Feeding:
-      OrbitOledClear();
-      while(pageEnter == 1){
-        gamesPage();
-      }
+      OrbitOledMoveTo(0,0);
+      feedingPage();
       break;
       
     case Cleaning:
-      OrbitOledClear();
-      while(pageEnter == 1){
-        gamesPage();
-      }
+      cleaningPage();
       break;
       
     case Medicine:
-      OrbitOledClear();
-      while(pageEnter == 1){
-        gamesPage();
-      }
+      medicinePage();
       break;
       
     case Stats:
-      OrbitOledClear();
-      while(pageEnter == 1){
-        gamesPage();
-      }
+      statsPage();
       break;
       
     case Games:
-      OrbitOledClear();
-      while(pageEnter == 1){
-        gamesPage();
-      }
+      gamesPage();
       break;
   }
   
