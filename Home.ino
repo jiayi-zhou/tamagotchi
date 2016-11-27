@@ -1,6 +1,7 @@
 static void homeScreen(){
   printTama(frog);
   back();
+  potentiometer();
   OrbitOledUpdate();
 //  OrbitOledClear();
 

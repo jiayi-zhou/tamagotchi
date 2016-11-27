@@ -9,10 +9,15 @@
 #include <stdbool.h>
 #include <math.h>
 #include <stdio.h>
+const uint32_t SwitchCount = 2;
+const uint32_t ButtonCount = 2;
+const uint32_t Switches[SwitchCount] = { PA_7, PA_6 };
+const uint32_t Buttons[ButtonCount] = { PD_2, PE_0 };
 
 void potentiometer();
 void DeviceInit();
 void WireInit();
+
 void GameInit() {
   OrbitOledInit();
   OrbitOledClear();
@@ -20,7 +25,13 @@ void GameInit() {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
   //  OrbitOledSetDrawColor('p');
+  for(int i = 0; i < SwitchCount; ++i )
+    pinMode(Switches[i], INPUT);
+  for(int i = 0; i < ButtonCount; ++i )
+    pinMode(Buttons[i], INPUT);
 }
+
+
 void DeviceInit();
 void OrbitSetOled();
 
@@ -35,22 +46,20 @@ static void back(){
     OrbitOledMoveTo(68, 0);
     OrbitOledDrawString("health");
     movement();
+    
 }
 void setup() {
   Serial.begin(9600);
  WireInit();
 GameInit();
- DeviceInit();
   
   
 
 }
 
 void loop() {
-  bopIt();
-  /*potentiometer();
- back();
- printFrog();
+//  bopIt();
+ homeScreen();
 
   //printFish();
   
@@ -58,6 +67,6 @@ void loop() {
   OrbitOledUpdate();
       delay(70);
 
-  OrbitOledClear();*/
+  OrbitOledClear();
     
 }

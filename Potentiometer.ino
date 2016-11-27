@@ -15,7 +15,10 @@ const uint32_t Potentiometer = PE_3;
 float value = 0;
 int menu[5] = {0};
 int pageNum;
+
 void potentiometer(){
+  uiInputTick();
+
   OrbitOledMoveTo(68, 18);
 
   value = analogRead(Potentiometer);
@@ -27,22 +30,42 @@ void potentiometer(){
   
   if(value >= menu[0] && value < menu[1]){
     OrbitOledDrawString("Feeding");
+        currentMenuPage = Feeding;
   }
   else if(value >= menu[1] && value < menu[2]){
     OrbitOledDrawString("Cleaning");
+    currentMenuPage = Cleaning;
   }
   else if(value >= menu[2] && value < menu[3]){
     OrbitOledDrawString("Medicine");
+    currentMenuPage = Medicine;
   }
   else if(value >= menu[3] && value < menu[4]){
     OrbitOledDrawString("Games");
+    currentMenuPage = Games;
   }
   else if(value >= menu[4] && value <= 4095){
     OrbitOledDrawString("Stats");
+    currentMenuPage = Stats;
   }
-
+  
+  if(gameMenuState.buttons[0].isRising && pageEnter == 0){
+//    pageEnter == 1;
+    OrbitOledClearBuffer();
+    OrbitOledClear();
+    selectionScreen(currentMenuPage);
+  }
   Serial.print(value);
   Serial.print("\n");
 
+}
+static void uiInputTick(){
+  for(int i = 0; i < ButtonCount; ++i )
+  {
+    // Only look for Rising Edge Signals.
+    bool previousState = gameMenuState.buttons[i].state;
+    gameMenuState.buttons[i].state = digitalRead(Buttons[i]);
+    gameMenuState.buttons[i].isRising = (!previousState && gameMenuState.buttons[i].state);
+  }
 }
 
