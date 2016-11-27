@@ -93,6 +93,3 @@ void bopIt() {
 
   OrbitOledClear();
 }
-
-bool 
-
