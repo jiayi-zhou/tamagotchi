@@ -46,8 +46,8 @@ GameInit();
 }
 
 void loop() {
-bopIt();
-// homeScreen();
+//bopIt();
+ homeScreen();
 
   //printFish();
   

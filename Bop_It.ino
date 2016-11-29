@@ -88,8 +88,7 @@ void btnPress(int b) {
       activeGame.score ++;
       Serial.print(activeGame.score);
       OrbitOledUpdate();
-      pass = 1;
-      break;      
+      pass = 1;     
     }
     delay (1);
     timeLim ++;
@@ -100,14 +99,38 @@ void btnPress(int b) {
     lose (activeGame.score);}
 }
 
+void shakeDetect() {
+  
+  Serial.print("should print\n");
+  OrbitOledMoveTo(0, 0);
+  OrbitOledDrawString("Shake");
+  OrbitOledUpdate();
+  int timeLim = 0;
+  while(timeLim < 5000 && pass == 0){
+    if (ShakeIsShaking()){
+       OrbitOledMoveTo(0, 10);
+      activeGame.score ++;
+      Serial.print(activeGame.score);
+      OrbitOledUpdate();
+      pass = 1; 
+    }
+    delay (1);
+    timeLim ++;
+  }
+
+
+  if  ( timeLim >= 5000 && pass == 0){
+    lose (activeGame.score);}
+}
+
+
 void bopIt() {
   //  activeGame.playerCommand = (enum Command)(rand() % 5);
 
-  activeGame.playerCommand = (enum Command)1;
+  activeGame.playerCommand = (enum Command)0;
   switch (activeGame.playerCommand) {
     case Shake: {
-        OrbitOledMoveTo(0, 0);
-        OrbitOledDrawString("Shake");
+        shakeDetect();
 
         break;
       }

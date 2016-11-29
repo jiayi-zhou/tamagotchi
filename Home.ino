@@ -1,4 +1,3 @@
-
 static void homeScreen(){
    printTama(frog);
    homeBackground();
