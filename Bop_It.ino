@@ -1,4 +1,3 @@
-
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -11,7 +10,6 @@
 #include  "FillPat.h"
 
 #include  "delay.h"
-
 
 struct ButtonState
 {
@@ -40,6 +38,16 @@ struct GameState {
   enum Command playerCommand;
 } activeGame;
 
+void bopuiInputTick() {
+  for (int i = 0; i < ButtonCount; ++i )
+  {
+    // Only look for Rising Edge Signals.
+    bool previousState = gameInputState.buttons[i].state;
+    gameInputState.buttons[i].state = digitalRead(Buttons[i]);
+    gameInputState.buttons[i].isRising = (!previousState && gameInputState.buttons[i].state);
+  }
+}
+
 void GameUIInit() {
   OrbitOledInit();
   OrbitOledClear();
@@ -54,38 +62,81 @@ void GameUIInit() {
     pinMode(Buttons[i], INPUT);
 }
 
-void bopIt() {
-  activeGame.playerCommand = (enum Command)(rand() % 5);
-
-  switch (activeGame.playerCommand) {
-    case Shake:
-      OrbitOledMoveTo(0, 0);
-    OrbitOledDrawString("Shake");
-      
-      break;
-    case PressBTN1:
-       OrbitOledMoveTo(0, 0);
-    OrbitOledDrawString("Press Btn1");
-      
-      break;
-    case PressBTN2:
-      OrbitOledMoveTo(0, 0);
-    OrbitOledDrawString("Press Btn 2");
-      
-      break;
-    case Switch1:
-       OrbitOledMoveTo(0, 0);
-    OrbitOledDrawString("Switch1");
-     
-      break;
-    case Switch2:
-       OrbitOledMoveTo(0, 0);
-    OrbitOledDrawString("Switch2");
-     
-      break;
-  }
-  OrbitOledUpdate();
-  delay(70);
-
-  OrbitOledClear();
+void lose (int score) {
+OrbitOledClearBuffer();
+  OrbitOledMoveTo(0, 0);
+  OrbitOledDrawString("Score: ");
+  OrbitOledDrawChar('0' + activeGame.score);
+   OrbitOledUpdate();
+   Serial.print ("lose");
+  delay (10000);
 }
+int pass = 0;
+void btnPress(int b) {
+  bopuiInputTick();
+  Serial.print("should print\n");
+  OrbitOledMoveTo(0, 0);
+  OrbitOledDrawString("Press Btn ");
+  OrbitOledDrawChar('1' + b);
+  OrbitOledUpdate();
+  int timeLim = 0;
+  while(timeLim < 5000 && pass == 0){
+    if (gameInputState.buttons[b].isRising) {
+      //  OrbitOledClear();
+      OrbitOledMoveTo(0, 10);
+      OrbitOledDrawString("Pressed ");
+      activeGame.score ++;
+      Serial.print(activeGame.score);
+      OrbitOledUpdate();
+      pass = 1;
+      break;      
+    }
+    delay (1);
+    timeLim ++;
+  }
+
+
+  if  ( timeLim >= 5000 && pass == 0){
+    lose (activeGame.score);}
+}
+
+void bopIt() {
+  //  activeGame.playerCommand = (enum Command)(rand() % 5);
+
+  activeGame.playerCommand = (enum Command)1;
+  switch (activeGame.playerCommand) {
+    case Shake: {
+        OrbitOledMoveTo(0, 0);
+        OrbitOledDrawString("Shake");
+
+        break;
+      }
+    case PressBTN1:
+      { pass = 0;
+        btnPress (0);
+        break;
+      }
+    case PressBTN2: {
+        pass = 0;
+        btnPress (1);
+        break;
+      }
+    case Switch1: {
+        OrbitOledMoveTo(0, 0);
+        OrbitOledDrawString("Switch1");
+        break;
+      }
+    case Switch2: {
+        OrbitOledMoveTo(0, 0);
+        OrbitOledDrawString("Switch2");
+        break;
+      }
+  }
+  //OrbitOledClearBuffer();
+  OrbitOledUpdate();
+  //delay(1000);
+
+  //OrbitOledClear();
+}
+
+

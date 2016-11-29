@@ -32,10 +32,10 @@ void GameInit() {
     pinMode(Buttons[i], INPUT);
 }
 
-
 void DeviceInit();
 void OrbitSetOled();
 void bopIt();
+
 void setup() {
   Serial.begin(9600);
  WireInit();
@@ -46,8 +46,8 @@ GameInit();
 }
 
 void loop() {
-//  bopIt();
- homeScreen();
+bopIt();
+// homeScreen();
 
   //printFish();
   

@@ -29,23 +29,25 @@ void potentiometer(){
   }
   
   if(value >= menu[0] && value < menu[1]){
-    OrbitOledDrawString("Feeding");
+    OrbitOledDrawString("Feed  ");
+
         currentMenuPage = Feeding;
   }
   else if(value >= menu[1] && value < menu[2]){
-    OrbitOledDrawString("Cleaning");
+    OrbitOledDrawString("Clean  ");
+
     currentMenuPage = Cleaning;
   }
   else if(value >= menu[2] && value < menu[3]){
-    OrbitOledDrawString("Medicine");
+    OrbitOledDrawString("Health");
     currentMenuPage = Medicine;
   }
   else if(value >= menu[3] && value < menu[4]){
-    OrbitOledDrawString("Games");
+    OrbitOledDrawString("Games  ");
     currentMenuPage = Games;
   }
   else if(value >= menu[4] && value <= 4095){
-    OrbitOledDrawString("Stats");
+    OrbitOledDrawString("Stats   ");
     currentMenuPage = Stats;
   }
   
@@ -53,7 +55,7 @@ void potentiometer(){
     pageEnter = 1;
     Serial.print(pageEnter);
     OrbitOledClearBuffer();
-    OrbitOledClear();
+   // OrbitOledClear();
     selectionScreen(currentMenuPage, pageEnter);
   }
   Serial.print(value);
