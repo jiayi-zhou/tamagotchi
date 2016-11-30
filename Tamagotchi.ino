@@ -9,11 +9,14 @@
 #include <stdbool.h>
 #include <math.h>
 #include <stdio.h>
+
 const uint32_t SwitchCount = 2;
 const uint32_t ButtonCount = 2;
 const uint32_t Switches[SwitchCount] = { PA_7, PA_6 };
 const uint32_t Buttons[ButtonCount] = { PD_2, PE_0 };
+const uint32_t Potentiometer = PE_3;
 int pageEnter = 0;
+
 
 void potentiometer();
 void DeviceInit();
@@ -26,32 +29,29 @@ void GameInit() {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
   //  OrbitOledSetDrawColor('p');
-  for(int i = 0; i < SwitchCount; ++i )
+  for (int i = 0; i < SwitchCount; ++i )
     pinMode(Switches[i], INPUT);
-  for(int i = 0; i < ButtonCount; ++i )
+  for (int i = 0; i < ButtonCount; ++i )
     pinMode(Buttons[i], INPUT);
 }
 
-void DeviceInit();
-void OrbitSetOled();
-void bopIt();
+static int pageMain = 0;
 
 void setup() {
   Serial.begin(9600);
- WireInit();
-GameInit();
-  
-  
-
+  WireInit();
+  GameInit();
 }
 
 void loop() {
-//bopIt();
- homeScreen();
+  if (pageMain == 0) {
+    homeScreen();
+    OrbitOledClearBuffer();
+  }
 
-  //printFish();
+  if (pageMain == 1) {
+    menuPage();
+  }
   
-  // put your main code here, to run repeatedly:
 
-    
 }
