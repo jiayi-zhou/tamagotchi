@@ -25,6 +25,19 @@ struct stats {
   int hygiene;
 }stat;
 
+struct ButtonState
+{
+  bool state;
+  bool isRising;
+};
+
+
+ struct InputState {
+  bool switches [2];
+  struct ButtonState buttons [2];
+
+} gameInputState;
+
 void potentiometer();
 void DeviceInit();
 void WireInit();

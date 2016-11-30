@@ -1,15 +1,5 @@
-struct ButtonState
-{
-  bool state;
-  bool isRising;
-};
 
 
-static struct InputState {
-  bool switches [2];
-  struct ButtonState buttons [2];
-
-} gameInputState;
 int statsCount = 0;
 static void homeScreen() {
  // Serial.print("home\n");

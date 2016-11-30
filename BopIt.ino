@@ -70,7 +70,7 @@ void btnPress(int b) {
      // OrbitOledClear();
     }
   }
-  return 0;
+  //return 0;
   Serial.print(activeGame.score);
   Serial.print("\n");
 }
