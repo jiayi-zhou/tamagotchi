@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <stdio.h>
-
+#include <string>
 int viewMenu = 1;
 float value = 0;
 int menu[5] = {0};
@@ -29,12 +29,14 @@ struct menuState {
 } gameMenuState;
 
 static void feedingPage() {
-  uiInputTick();
+ 
 
 
   OrbitOledDrawString("Pick a food.");
-  if (gameInputState.buttons[1].isRising) {
-
+  uiInputTick();
+  while (gameInputState.buttons[1].isRising) {
+     stat.hunger += 30;  
+     Serial.print (" feed");
   }
   if (gameInputState.buttons[0].isRising)
   {
@@ -43,31 +45,52 @@ static void feedingPage() {
     pageMain = 0;
     viewMenu = 1;
   }
-   
+
+ 
 }
-/*
-  static void pageInputTick() {
-  for (int i = 0; i < ButtonCount; ++i )
-  {
-    // Only look for Rising Edge Signals.
-    bool previousState = gameMenuState.buttons[i].state;
-    gameMenuState.buttons[i].state = digitalRead(Buttons[i]);
-    gameMenuState.buttons[i].isRising = (!previousState && gameMenuState.buttons[i].state);
-  }
-  }*/
+
 
 static void cleaningPage() {
-
+ShakeTick();
+uiInputTick();
+bool shaking =false;
   OrbitOledMoveTo(0, 0);
   OrbitOledDrawString("Shake to clean!!");
-  tamaDoingThings (frog );
+ switch (sprite) {
+    case 0:
+      tamaDoingThings (frog);
+      break;
+    case 1:
+      tamaDoingThings(fish);
+      break;
+    case 2:
+      tamaDoingThings(platy);
+      break;
+    case 3:
+      tamaDoingThings(joe);
+      break;
+    case 4:
+      tamaDoingThings(alien);
+      break;
+  }
+
+  if (ShakeIsShaking()){
+    Serial.print("shake");
+    shaking = true;   
+    }
+    else if (shaking)
+    {
+      delay (1000);
+      shaking = false;
+      stat.hygiene += 100;
+      }
 
   if (gameInputState.buttons[0].isRising)
   {
     OrbitOledClearBuffer();
     OrbitOledClear();
     pageMain = 0;
-   // viewMenu = 1;
+    viewMenu = 1;
   }
 
 }
@@ -89,9 +112,40 @@ static void medicinePage() {
 
 static void statsPage() {
   uiInputTick();
+  String strHunger = String(stat.hunger);
+  char hunger[1024];
+  strcpy(hunger, strHunger.c_str());
+
+  String strHealth = String(stat.health);
+  char health[1024];
+  strcpy(health, strHealth.c_str());
+
+ String strHappiness = String(stat.happiness);
+  char happiness[1024];
+  strcpy(happiness, strHappiness.c_str());
+
+ String strHygiene = String(stat.hygiene);
+  char hygiene[1024];
+  strcpy(hygiene, strHygiene.c_str());
+
 
   OrbitOledMoveTo(0, 0);
-  OrbitOledDrawString("Stats go here.");
+  OrbitOledDrawString("Hunger: ");
+  OrbitOledDrawString(hunger);
+
+   OrbitOledMoveTo(0, 8);
+  OrbitOledDrawString("Health: ");
+  OrbitOledDrawString(health);
+
+   OrbitOledMoveTo(0, 16);
+  OrbitOledDrawString("Happy: ");
+  OrbitOledDrawString(happiness);
+
+   OrbitOledMoveTo(0, 24);
+  OrbitOledDrawString("Hygiene: ");
+  OrbitOledDrawString(hygiene);
+  OrbitOledUpdate();
+
   if (gameInputState.buttons[0].isRising)
   {
 
@@ -120,7 +174,7 @@ static void gamesPage() {
 
 void menuPage() {
 
-  Serial.print("menu\n");
+  //Serial.print("menu\n");
    uiInputTick();
  if (viewMenu == 1) {
     OrbitOledMoveTo(0, 24);
@@ -159,7 +213,7 @@ void menuPage() {
    
     if (gameInputState.buttons[1].isRising) {
       pageEnter = 1;
-      Serial.print(pageEnter);
+    //  Serial.print(pageEnter);
       viewMenu = 0;
       selectionScreen(currentMenuPage, pageEnter);
     }

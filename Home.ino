@@ -10,17 +10,29 @@ static struct InputState {
   struct ButtonState buttons [2];
 
 } gameInputState;
-
+int statsCount = 0;
 static void homeScreen() {
-  Serial.print("home\n");
+ // Serial.print("home\n");
   uiInputTick();
-  printTama(frog, revFrog);
+  switch (sprite) {
+    case 0:
+      printTama (frog, revFrog);
+      break;
+    case 1:
+      printTama(fish, revFish);
+      break;
+    case 2:
+      printTama(platy, revPlaty);
+      break;
+    case 3:
+      printTama(joe, revJoe);
+      break;
+    case 4:
+      printTama(alien, revAlien);
+      break;
+  }
   homeBackground();
 
-  //printTama(frog);
-  //  homeBackground();
-  //   potentiometer();
-  
   OrbitOledUpdate();
   delay(70);
 
@@ -29,6 +41,13 @@ static void homeScreen() {
     pageMain = 1;
 
   }
+  statsCount ++;
+  if (statsCount % 1000 == 0){
+      stat.health -=1;
+      stat.hunger -=3;
+      stat.happiness -= 3;
+      stat.hygiene -= 6;
+    }
 
 }
 

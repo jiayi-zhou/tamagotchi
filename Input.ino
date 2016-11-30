@@ -1,3 +1,8 @@
+
+
+#include <Wire.h>
+
+
 /*
   static struct InputState {
   bool switches [2];
@@ -5,7 +10,7 @@
 
   } gameInputState;
 */
-static void uiInputTick() {
+ void uiInputTick() {
   for (int i = 0; i < ButtonCount; ++i )
   {
     // Only look for Rising Edge Signals.
@@ -14,9 +19,6 @@ static void uiInputTick() {
     gameInputState.buttons[i].isRising = (!previousState && gameInputState.buttons[i].state);
   }
 }
-
-
-#include <Wire.h>
 
 void WireRequestArray(int address, uint8_t* buffer, uint8_t amount);
 void WireWriteRegister(int address, uint8_t reg, uint8_t value);
