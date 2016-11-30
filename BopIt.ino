@@ -110,7 +110,7 @@ void bopIt() {
         break;
       }
     case PressBTN3:
-      { 
+      {        
         btnPress (1);
         break;
       }

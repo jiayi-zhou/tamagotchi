@@ -32,7 +32,7 @@ static void homeScreen() {
 
   }
   statsCount ++;
-  if (statsCount % 1000 == 0){
+  if (statsCount % 100 == 0){
       stat.health -=1;
       stat.hunger -=3;
       stat.happiness -= 3;

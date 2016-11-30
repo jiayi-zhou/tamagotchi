@@ -14,7 +14,7 @@ int viewMenu = 1;
 float value = 0;
 int menu[5] = {0};
 int pageNum;
-
+int changePage = 0;
 
 static enum pages {
   Feeding = 1,
@@ -29,34 +29,35 @@ struct menuState {
 } gameMenuState;
 
 static void feedingPage() {
- 
-
-
-  OrbitOledDrawString("Pick a food.");
   uiInputTick();
-  while (gameInputState.buttons[1].isRising) {
-     stat.hunger += 30;  
-     Serial.print (" feed");
+
+
+  if (gameInputState.buttons[1].isRising) {
+    stat.hunger += 30;
+    Serial.print (" feed");
+
   }
+
   if (gameInputState.buttons[0].isRising)
   {
     OrbitOledClearBuffer();
     OrbitOledClear();
     pageMain = 0;
     viewMenu = 1;
+    changePage = 0;
   }
 
- 
+  OrbitOledUpdate();
+
 }
 
 
 static void cleaningPage() {
-ShakeTick();
-uiInputTick();
-bool shaking =false;
-  OrbitOledMoveTo(0, 0);
-  OrbitOledDrawString("Shake to clean!!");
- switch (sprite) {
+  ShakeTick();
+  uiInputTick();
+  bool shaking = false;
+  
+  switch (sprite) {
     case 0:
       tamaDoingThings (frog);
       break;
@@ -74,16 +75,16 @@ bool shaking =false;
       break;
   }
 
-  if (ShakeIsShaking()){
+  if (ShakeIsShaking()) {
     Serial.print("shake");
-    shaking = true;   
-    }
-    else if (shaking)
-    {
-      delay (1000);
-      shaking = false;
-      stat.hygiene += 100;
-      }
+    shaking = true;
+  }
+  else if (shaking)
+  {
+    delay (1000);
+    shaking = false;
+    stat.hygiene += 100;
+  }
 
   if (gameInputState.buttons[0].isRising)
   {
@@ -91,7 +92,10 @@ bool shaking =false;
     OrbitOledClear();
     pageMain = 0;
     viewMenu = 1;
+    changePage = 0;
   }
+
+  OrbitOledUpdate();
 
 }
 
@@ -106,7 +110,7 @@ static void medicinePage() {
     OrbitOledClearBuffer();
     OrbitOledClear();
     pageMain = 0;
-     viewMenu = 1;
+    viewMenu = 1;
   }
 }
 
@@ -120,11 +124,11 @@ static void statsPage() {
   char health[1024];
   strcpy(health, strHealth.c_str());
 
- String strHappiness = String(stat.happiness);
+  String strHappiness = String(stat.happiness);
   char happiness[1024];
   strcpy(happiness, strHappiness.c_str());
 
- String strHygiene = String(stat.hygiene);
+  String strHygiene = String(stat.hygiene);
   char hygiene[1024];
   strcpy(hygiene, strHygiene.c_str());
 
@@ -133,15 +137,15 @@ static void statsPage() {
   OrbitOledDrawString("Hunger: ");
   OrbitOledDrawString(hunger);
 
-   OrbitOledMoveTo(0, 8);
+  OrbitOledMoveTo(0, 8);
   OrbitOledDrawString("Health: ");
   OrbitOledDrawString(health);
 
-   OrbitOledMoveTo(0, 16);
+  OrbitOledMoveTo(0, 16);
   OrbitOledDrawString("Happy: ");
   OrbitOledDrawString(happiness);
 
-   OrbitOledMoveTo(0, 24);
+  OrbitOledMoveTo(0, 24);
   OrbitOledDrawString("Hygiene: ");
   OrbitOledDrawString(hygiene);
   OrbitOledUpdate();
@@ -152,7 +156,7 @@ static void statsPage() {
     OrbitOledClearBuffer();
     OrbitOledClear();
     pageMain = 0;
-     viewMenu = 1;
+    viewMenu = 1;
   }
 }
 
@@ -167,7 +171,7 @@ static void gamesPage() {
     OrbitOledClearBuffer();
     OrbitOledClear();
     pageMain = 0;
-     viewMenu = 1;
+    viewMenu = 1;
   }
 }
 
@@ -175,8 +179,8 @@ static void gamesPage() {
 void menuPage() {
 
   //Serial.print("menu\n");
-   uiInputTick();
- if (viewMenu == 1) {
+  uiInputTick();
+  if (viewMenu == 1) {
     OrbitOledMoveTo(0, 24);
     OrbitOledDrawString("Menu: ");
 
@@ -210,10 +214,10 @@ void menuPage() {
       currentMenuPage = Stats;
     }
 
-   
+
     if (gameInputState.buttons[1].isRising) {
       pageEnter = 1;
-    //  Serial.print(pageEnter);
+      //  Serial.print(pageEnter);
       viewMenu = 0;
       selectionScreen(currentMenuPage, pageEnter);
     }
@@ -224,7 +228,8 @@ void menuPage() {
   {
     OrbitOledClear();
     pageMain = 0;
-    viewMenu =1;
+    viewMenu = 1;
+    changePage = 0;
   }
 
 }
@@ -233,14 +238,23 @@ void selectionScreen(int pageNumber, int pageEnter) {
   OrbitOledClearBuffer();
   OrbitOledUpdate();
   uiInputTick();
+  changePage = 1;
   switch (pageNumber) {
     case Feeding:
       OrbitOledMoveTo(0, 0);
-      feedingPage();
+      OrbitOledDrawString("Pick a food.");
+      while (changePage == 1) {
+        feedingPage();
+
+      }
       break;
 
-    case Cleaning:
-      cleaningPage();
+    case Cleaning: 
+    OrbitOledMoveTo(0, 0);
+  OrbitOledDrawString("Shake to clean!!");
+      while (changePage == 1) {
+        cleaningPage();
+      }
       break;
 
     case Medicine:
