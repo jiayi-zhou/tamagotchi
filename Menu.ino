@@ -16,10 +16,16 @@ int menu[5] = {0};
 int pageNum;
 int changePage = 0;
 
- char poop [] = {
-0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xA4, 0xD0, 0xF8, 0xE0, 0xD4, 0x08, 0x00, 0x00, 0x00, 0x00
+char poop [] = {
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xA4, 0xD0, 0xF8, 0xE0, 0xD4, 0x08, 0x00, 0x00, 0x00, 0x00
 };
+
+char medicine [] = {
+  0x00, 0x00, 0x00, 0x00, 0x82, 0x46, 0x3A, 0x82, 0x82, 0x3A, 0x46, 0x82, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x3F, 0x40, 0x46, 0x46, 0x5F, 0x5F, 0x46, 0x46, 0x40, 0x3F, 0x00, 0x00, 0x00
+};
+
 
 static enum pages {
   Feeding = 1,
@@ -39,8 +45,6 @@ static void feedingPage() {
 
   if (gameInputState.buttons[1].isRising) {
     stat.hunger += 30;
-
-
   }
 
   if (gameInputState.buttons[0].isRising)
@@ -80,7 +84,7 @@ void cleaningPage() {
   }
 
   OrbitOledMoveTo(32, 12);
-   OrbitOledPutBmp(16, 16, poop);
+  OrbitOledPutBmp(16, 16, poop);
   ShakeTick();
   if (ShakeIsShaking()) {
     Serial.print("shake");
@@ -132,9 +136,46 @@ void cleaningPage() {
 
 static void medicinePage() {
   uiInputTick();
+  switch (sprite) {
+    case 0:
+      tamaDoingThings (frog);
+      break;
+    case 1:
+      tamaDoingThings(fish);
+      break;
+    case 2:
+      tamaDoingThings(platy);
+      break;
+    case 3:
+      tamaDoingThings(joe);
+      break;
+    case 4:
+      tamaDoingThings(alien);
+      break;
+  }
+  if (stat.health > 40)
+  { OrbitOledMoveTo(0, 0);
+    OrbitOledDrawString("You are healthy!");
+    OrbitOledUpdate();
+    delay(3000);
+    pageMain = 0;
+    viewMenu = 1;
+  }
+  else {
 
-  OrbitOledMoveTo(0, 0);
-  OrbitOledDrawString("Give medicine!!!");
+    OrbitOledMoveTo(32, 12);
+    OrbitOledPutBmp(16, 16, medicine);
+    OrbitOledMoveTo(0, 0);
+    OrbitOledDrawString("Visited Doctor!");
+    OrbitOledUpdate();
+    stat.health += 50;
+    delay(3000);
+    pageMain = 0;
+    viewMenu = 1;
+
+  }
+
+
   if (gameInputState.buttons[0].isRising)
   {
 

@@ -66,8 +66,7 @@ void setup() {
   Serial.begin(9600);
   WireInit();
   GameInit();
-  //  srand(time(NULL));
-  sprite = rand () % 5;
+  sprite =  4;
 
   stat.hunger = 100;
   stat.health = 100;
