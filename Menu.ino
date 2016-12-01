@@ -30,11 +30,11 @@ struct menuState {
 
 static void feedingPage() {
   uiInputTick();
-
-
+  tamaFeeding(revPlaty, eatingPlaty);
+  printBanana();
   if (gameInputState.buttons[1].isRising) {
     stat.hunger += 30;
-    Serial.print (" feed");
+    
 
   }
 
@@ -46,13 +46,12 @@ static void feedingPage() {
     viewMenu = 1;
     changePage = 0;
   }
-
   OrbitOledUpdate();
 
 }
 
 
-static void cleaningPage() {
+void cleaningPage() {
   ShakeTick();
   uiInputTick();
   bool shaking = false;
@@ -243,6 +242,7 @@ void selectionScreen(int pageNumber, int pageEnter) {
     case Feeding:
       OrbitOledMoveTo(0, 0);
       OrbitOledDrawString("Pick a food.");
+      
       while (changePage == 1) {
         feedingPage();
 
