@@ -25,44 +25,12 @@ int statsCount = 0;
 void homeScreen() {
   Serial.print("home\n");
   uiInputTick();
-  switch (sprite) {
-    case 0:
-      printTama (frog, revFrog);
-      break;
-    case 1:
-      printTama(fish, revFish);
-      break;
-    case 2:
-      printTama(platy, revPlaty);
-      break;
-    case 3:
-      printTama(joe, revJoe);
-      break;
-    case 4:
-      printTama(alien, revAlien);
-      break;
-  }
+  printTama(tamaForw, tamaBack);
   homeBackground();
   OrbitOledMoveTo(65, 0);
   OrbitOledDrawString("Tama:");
    OrbitOledMoveTo(65, 10);
-    switch (sprite) {
-    case 0:
-       OrbitOledDrawString("Pepe");
-      break;
-    case 1:
-      OrbitOledDrawString("Magik");
-      break;
-    case 2:
-      OrbitOledDrawString("Perry");
-      break;
-    case 3:
-      OrbitOledDrawString("Joe");
-      break;
-    case 4:
-      OrbitOledDrawString("Ally");
-      break;
-  }
+   OrbitOledDrawString(tamaName);
   if (stat.health < 20) {
     OrbitOledMoveTo(66, 24);
     OrbitOledPutBmp(8, 8, health);
@@ -119,23 +87,7 @@ static void homeBackground() {
 void death (){
    OrbitOledMoveTo(24,0);
    OrbitOledDrawString ("RIP, ");
-   switch (sprite) {
-    case 0:
-       OrbitOledDrawString("Pepe");
-      break;
-    case 1:
-      OrbitOledDrawString("Magik");
-      break;
-    case 2:
-      OrbitOledDrawString("Perry");
-      break;
-    case 3:
-      OrbitOledDrawString("Joe");
-      break;
-    case 4:
-      OrbitOledDrawString("Ally");
-      break;
-  }
+   OrbitOledDrawString(tamaName);
   OrbitOledMoveTo(56, 8);
 
   OrbitOledPutBmp(18, 18, angel);

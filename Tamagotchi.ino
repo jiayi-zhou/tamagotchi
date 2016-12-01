@@ -47,6 +47,10 @@ void DeviceInit();
 void WireInit();
 int sprite;
 
+void tamaSelection();
+void printSelection();
+int charSelection();
+
 void GameInit() {
   OrbitOledInit();
   OrbitOledClear();
@@ -63,7 +67,7 @@ void GameInit() {
   pinMode(Buttons[2], INPUT_PULLUP);
 }
 
-static int pageMain = 0;
+static int pageMain = 6;
 
 void setup() {
   Serial.begin(9600);
@@ -79,7 +83,7 @@ void setup() {
 }
 
 void loop() {
-
+  
   switch (pageMain) {
     case 0:
       homeScreen();
@@ -94,6 +98,17 @@ void loop() {
     case 3:
       death();
       break;
+    case 5:
+      printSelection();
+      charSelection();
+      OrbitOledUpdate();
+      break;
+    case 6:
+      title();
+      break;
   }
+
+  if (pageMain == 4) {
+    death ();}
 
 }

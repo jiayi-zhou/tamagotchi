@@ -166,7 +166,44 @@ char arrow [] = {
 /**
    Frog, fish, alien, joe, platy
 */
-
+char* tamaForw;
+char* tamaBack;
+char* tamaEat;
+char* tamaName;
+void tamaInit(int n){
+    switch(n){
+    case 0:
+      tamaForw = frog;
+      tamaBack = revFrog;
+      tamaEat = eatingFrog;
+      tamaName = "Pepe";
+      break;
+    case 1:
+      tamaForw = fish;
+      tamaBack = revFish;
+      tamaEat = eatingFish;
+      tamaName = "Magik";
+      break;
+    case 2:
+      tamaForw = alien;
+      tamaBack = revAlien;
+      tamaEat = eatingAlien;
+      tamaName = "Ally";
+      break;
+    case 3:
+      tamaForw = joe;
+      tamaBack = revJoe;
+      tamaEat = eatingJoe;
+      tamaName = "Joe";
+      break;
+    case 4:
+      tamaForw = platy;
+      tamaBack = revPlaty;
+      tamaEat = eatingPlaty;
+      tamaName = "Perry";
+      break;
+  }
+}
 
 int xdirect = 0;
 int ydirect = 0;
