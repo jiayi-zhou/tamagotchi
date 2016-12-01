@@ -1,8 +1,8 @@
 
 
 int statsCount = 0;
-static void homeScreen() {
- // Serial.print("home\n");
+ void homeScreen() {
+Serial.print("home\n");
   uiInputTick();
   switch (sprite) {
     case 0:

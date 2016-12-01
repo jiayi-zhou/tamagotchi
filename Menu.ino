@@ -16,6 +16,11 @@ int menu[5] = {0};
 int pageNum;
 int changePage = 0;
 
+ char poop [] = {
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xA4, 0xD0, 0xF8, 0xE0, 0xD4, 0x08, 0x00, 0x00, 0x00, 0x00
+};
+
 static enum pages {
   Feeding = 1,
   Cleaning = 2,
@@ -31,10 +36,10 @@ struct menuState {
 static void feedingPage() {
   uiInputTick();
   tamaFeeding(revPlaty, eatingPlaty);
-  printBanana();
+
   if (gameInputState.buttons[1].isRising) {
     stat.hunger += 30;
-    
+
 
   }
 
@@ -52,7 +57,7 @@ static void feedingPage() {
 
 
 void cleaningPage() {
-  ShakeTick();
+  ShakeInit();
   uiInputTick();
   bool shaking = false;
 
@@ -74,17 +79,44 @@ void cleaningPage() {
       break;
   }
 
+  OrbitOledMoveTo(32, 12);
+   OrbitOledPutBmp(16, 16, poop);
+  ShakeTick();
   if (ShakeIsShaking()) {
     Serial.print("shake");
     shaking = true;
   }
-  else if (shaking)
-  {
-    delay (1000);
-    shaking = false;
-    stat.hygiene += 100;
-  }
 
+  if (shaking) {
+    delay (1000);
+    stat.hygiene += 50;
+    OrbitOledClearBuffer();
+    switch (sprite) {
+      case 0:
+        tamaDoingThings (frog);
+        break;
+      case 1:
+        tamaDoingThings(fish);
+        break;
+      case 2:
+        tamaDoingThings(platy);
+        break;
+      case 3:
+        tamaDoingThings(joe);
+        break;
+      case 4:
+        tamaDoingThings(alien);
+        break;
+    }
+    OrbitOledMoveTo(0, 0);
+    OrbitOledDrawString("All Clean!");
+    OrbitOledUpdate();
+    delay (5000);
+    pageMain = 0;
+    viewMenu = 1;
+    changePage = 0;
+    shaking = false;
+  }
   if (gameInputState.buttons[0].isRising)
   {
     OrbitOledClearBuffer();
@@ -242,7 +274,7 @@ void selectionScreen(int pageNumber, int pageEnter) {
     case Feeding:
       OrbitOledMoveTo(0, 0);
       OrbitOledDrawString("Pick a food.");
-      
+
       while (changePage == 1) {
         feedingPage();
 
@@ -267,12 +299,12 @@ void selectionScreen(int pageNumber, int pageEnter) {
 
     case Games:
       OrbitOledMoveTo(40, 0);
-  OrbitOledDrawString("Bop It!");
- 
-  OrbitOledUpdate();
+      OrbitOledDrawString("Bop It!");
 
-  delay (4000);
-   OrbitOledClearBuffer();
+      OrbitOledUpdate();
+
+      delay (4000);
+      OrbitOledClearBuffer();
       pageMain = 3;
       break;
 

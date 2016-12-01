@@ -97,6 +97,7 @@ void bopIt() {
   activeGame.playerCommand = (enum Command)(rand() % 6);
   uiInputTick();
   levelClear = 0;
+  stat.happiness++;
 
   switch (activeGame.playerCommand) {
     case Shake: {

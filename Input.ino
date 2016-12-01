@@ -10,10 +10,10 @@
 
   } gameInputState;
 */
- void uiInputTick() {
+void uiInputTick() {
 
-  
-  for(int i = 0; i < SwitchCount; ++i )
+
+  for (int i = 0; i < SwitchCount; ++i )
     gameInputState.switches[i] = digitalRead(Switches[i]);
   for (int i = 0; i < ButtonCount; ++i )
   {
@@ -23,7 +23,7 @@
     gameInputState.buttons[i].isRising = (!previousState && gameInputState.buttons[i].state);
   }
 
-  
+
 }
 
 void WireRequestArray(int address, uint8_t* buffer, uint8_t amount);
