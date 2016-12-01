@@ -34,7 +34,7 @@ struct ButtonState
 
  struct InputState {
   bool switches [2];
-  struct ButtonState buttons [2];
+  struct ButtonState buttons [4];
 
 } gameInputState;
 
@@ -55,6 +55,8 @@ void GameInit() {
     pinMode(Switches[i], INPUT);
   for (int i = 0; i < ButtonCount; ++i )
     pinMode(Buttons[i], INPUT);
+
+  pinMode(Buttons[2],INPUT_PULLUP);
 }
 
 static int pageMain = 0;
@@ -63,6 +65,7 @@ void setup() {
   Serial.begin(9600);
   WireInit();
   GameInit();
+  ShakeInit();
 //  srand(time(NULL));
     sprite = rand () % 5;
 
@@ -77,6 +80,7 @@ stat.hygiene = 100;
 
 
 void loop() {
+
   /*if (pageMain == 0) {
     homeScreen();
     OrbitOledClearBuffer();
