@@ -24,7 +24,7 @@ struct stats {
   int health;
   int happiness;
   int hygiene;
-}stat;
+} stat;
 
 struct ButtonState
 {
@@ -33,7 +33,7 @@ struct ButtonState
 };
 
 
- struct InputState {
+struct InputState {
   bool switches [SwitchCount];
   struct ButtonState buttons [ButtonCount];
 
@@ -50,12 +50,14 @@ void GameInit() {
   OrbitOledClearBuffer();
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
-  
+
   //  OrbitOledSetDrawColor('p');
   for (int i = 0; i < SwitchCount; ++i )
     pinMode(Switches[i], INPUT);
   for (int i = 0; i < ButtonCount; ++i )
     pinMode(Buttons[i], INPUT);
+
+    pinMode(Buttons[2], INPUT_PULLUP);
 }
 
 static int pageMain = 0;
@@ -64,13 +66,13 @@ void setup() {
   Serial.begin(9600);
   WireInit();
   GameInit();
-//  srand(time(NULL));
-    sprite = rand () % 5;
+  //  srand(time(NULL));
+  sprite = rand () % 5;
 
-stat.hunger = 100;
-stat.health = 100;
-stat.happiness = 100;
-stat.hygiene = 100;
+  stat.hunger = 100;
+  stat.health = 100;
+  stat.happiness =100 ;
+  stat.hygiene = 100;
 
 }
 
@@ -87,8 +89,8 @@ void loop() {
     menuPage();
   }
 
- if(pageMain == 3){
-bopIt();
-}
+  if (pageMain == 3) {
+    bopIt();
+  }
 
 }

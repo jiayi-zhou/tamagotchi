@@ -2,14 +2,6 @@
 
 #include <Wire.h>
 
-
-/*
-  static struct InputState {
-  bool switches [2];
-  struct ButtonState buttons [2];
-
-  } gameInputState;
-*/
 void uiInputTick() {
 
 
