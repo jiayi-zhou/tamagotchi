@@ -12,9 +12,9 @@
 #include <time.h>
 #include <string>
 const uint32_t SwitchCount = 2;
-const uint32_t ButtonCount = 2;
+const uint32_t ButtonCount = 4;
 const uint32_t Switches[SwitchCount] = { PA_7, PA_6 };
-const uint32_t Buttons[ButtonCount] = { PD_2, PE_0 };
+const uint32_t Buttons[ButtonCount] = { PD_2, PE_0, PUSH1, PUSH2 };
 const uint32_t Potentiometer = PE_3;
 int pageEnter = 0;
 
@@ -77,7 +77,7 @@ stat.hygiene = 100;
 
 
 void loop() {
-  if (pageMain == 0) {
+  /*if (pageMain == 0) {
     homeScreen();
     OrbitOledClearBuffer();
   }
@@ -87,5 +87,6 @@ void loop() {
   }
 
   //Serial.print(sprite);
-
+*/
+bopIt();
 }

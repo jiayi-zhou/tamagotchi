@@ -1,4 +1,4 @@
-/*#include <stdint.h>
+#include <stdint.h>
 #include <stdbool.h>
 
 #include  "LaunchPad.h"
@@ -33,79 +33,50 @@ void GameUIInit() {
   activeGame = { 0 };
 }
 
-void lose (int score) {
-  OrbitOledClearBuffer();
-  OrbitOledMoveTo(0, 0);
-  OrbitOledDrawString("Score: ");
-  OrbitOledDrawChar('0' + activeGame.score);
-  OrbitOledUpdate();
-  Serial.print("lose");
-  delay (10000);
-}
 
-int timeLim = 1000, timeTaken = 0, levelClear;
+int timeLim = 4000, timeTaken = 0, levelClear;
 
 void btnPress(int b) {
-  // Serial.print("should print\n");
-  OrbitOledMoveTo(0, 0);
-  OrbitOledDrawString("Press Btn ");
-  OrbitOledDrawChar('1' + b);
-  OrbitOledUpdate();
   uiInputTick();
   if (gameInputState.buttons[b].isRising) {
-    OrbitOledClear();
+    OrbitOledClearBuffer();
     OrbitOledMoveTo(0, 0);
     OrbitOledDrawString("Hell ya, you pressed it!!");
     OrbitOledUpdate();
     levelClear = 1;
+    activeGame.score++;
     Serial.print(activeGame.score);
     Serial.print("\n");
   }
-
-
 }
-
-void shakeDetect() {
-
-  Serial.print("should print\n");
-  OrbitOledMoveTo(0, 0);
-  OrbitOledDrawString("Shake");
-  OrbitOledUpdate();
-  int timeLim = 0;
-  while (timeLim < 5000) {
-    if (ShakeIsShaking()) {
-      OrbitOledMoveTo(0, 10);
-      activeGame.score ++;
-      Serial.print(activeGame.score);
-      OrbitOledUpdate();
-    }
-    delay (1);
-    timeLim ++;
-  }
-
-
-  if  ( timeLim >= 5000) {
-    lose (activeGame.score);
-  }
-}
-
 
 void bopIt() {
   //  activeGame.playerCommand = (enum Command)(rand() % 5);
   uiInputTick();
   levelClear = 0;
+  
 
   activeGame.playerCommand = (enum Command)1;
   switch (activeGame.playerCommand) {
     case Shake: {
-        shakeDetect();
-
+        //        shakeDetect();
         break;
       }
     case PressBTN3:
 
-    { while (timeTaken < timeLim && levelClear == 0) {
-          btnPress (0);
+      {
+        OrbitOledMoveTo(0, 0);
+        OrbitOledDrawString("Press Btn 1");
+        OrbitOledUpdate();
+        while (timeTaken < timeLim && levelClear == 0) {
+          btnPress (1);
+          timeTaken ++;
+        }
+
+        if (timeTaken >= timeLim )
+        {Serial.print("lose");}
+        if (levelClear ==1){
+        timeTaken =0;
         }
         break;
       }
@@ -131,4 +102,4 @@ void bopIt() {
   //OrbitOledClear();
 }
 
-*/
+
