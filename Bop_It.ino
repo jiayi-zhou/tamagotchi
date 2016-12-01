@@ -10,12 +10,14 @@
 #include  "FillPat.h"
 
 #include  "delay.h"
+  
+int timeLim = 1500, timeTaken = 0, levelClear;
 
 typedef enum Command
 {
   Shake = 0,
   PressBTN2 = 1,
-   PressBTN3 = 2,
+  PressBTN3 = 2,
   PressBTN4 = 3,
   Switch1 = 4,
   Switch2 = 5,
@@ -31,37 +33,34 @@ struct GameState {
 void GameUIInit() {
   gameInputState = { 0 };
   activeGame = { 0 };
+  timeLim = 1500, timeTaken = 0, levelClear=0;
+
 }
 
 
-int timeLim = 1300, timeTaken = 0, levelClear;
 
 void lose () {
   OrbitOledClearBuffer();
   OrbitOledMoveTo(0, 0);
   OrbitOledDrawString("Game Over!");
   OrbitOledMoveTo(0, 10);
-    OrbitOledDrawString("Score: ");
-
+  OrbitOledDrawString("Score: ");
   String strScore = String(activeGame.score);
   char score[1024];
   strcpy(score, strScore.c_str());
-
-
   OrbitOledDrawString(score);
   OrbitOledUpdate();
-  Serial.print("lose");
-  delay (10000);
-
+  delay (5000);
 
   pageMain = 0;
+  viewMenu = 1;
+  GameUIInit();
 }
 
 bool shaking ;
 void shakeDetect() {
 
   ShakeTick();
-
 
   if (ShakeIsShaking()) {
     levelClear = 1;
@@ -78,21 +77,30 @@ void btnPress(int b) {
     OrbitOledUpdate();
     levelClear = 1;
     activeGame.score++;
-    Serial.print(activeGame.score);
-    Serial.print("\n");
+  
+  }
+}
+
+
+void switchChanged(int b, bool currentState) {
+  uiInputTick();
+  if (gameInputState.switches[b]!=currentState) {
+    OrbitOledClearBuffer();
+    OrbitOledUpdate();
+    levelClear = 1;
+    activeGame.score++;
+  
   }
 }
 
 void bopIt() {
- activeGame.playerCommand = (enum Command)(rand() % 6);
+  activeGame.playerCommand = (enum Command)(rand() % 6);
   uiInputTick();
   levelClear = 0;
 
-
-  //activeGame.playerCommand = (enum Command)2;
   switch (activeGame.playerCommand) {
     case Shake: {
-        Serial.print("should print\n");
+        
         OrbitOledMoveTo(0, 0);
         OrbitOledClearBuffer();
         OrbitOledDrawString("Shake");
@@ -107,13 +115,12 @@ void bopIt() {
 
         if (shaking) {
           activeGame.score++;
-          Serial.print(activeGame.score);
-          Serial.print("\n");
+          
 
           shaking = false;
         }
         if (timeTaken >= timeLim )
-        { Serial.print("lose");
+        { 
           lose ();
         }
         if (levelClear == 1) {
@@ -134,7 +141,7 @@ void bopIt() {
         }
 
         if (timeTaken >= timeLim )
-        { Serial.print("lose");
+        { 
           lose ();
         }
         if (levelClear == 1) {
@@ -142,7 +149,7 @@ void bopIt() {
         }
         break;
       }
-      case PressBTN3:
+    case PressBTN3:
 
       {
         OrbitOledMoveTo(0, 0);
@@ -155,7 +162,7 @@ void bopIt() {
         }
 
         if (timeTaken >= timeLim )
-        { Serial.print("lose");
+        { 
           lose ();
         }
         if (levelClear == 1) {
@@ -175,7 +182,7 @@ void bopIt() {
         }
 
         if (timeTaken >= timeLim )
-        { Serial.print("lose");
+        {
           lose ();
         }
         if (levelClear == 1) {
@@ -185,21 +192,54 @@ void bopIt() {
       }
 
     case Switch1: {
+      
         OrbitOledMoveTo(0, 0);
-        OrbitOledDrawString("Switch1");
+        OrbitOledDrawString("Change Switch 1");
+        OrbitOledUpdate();
+         int currentState = gameInputState.switches[0] ;
+       
+        while (timeTaken < timeLim && levelClear == 0) {
+          switchChanged (0, currentState);
+          delay (1);
+          timeTaken ++;
+        }
+
+        if (timeTaken >= timeLim )
+        { 
+          lose ();
+        }
+        if (levelClear == 1) {
+          timeTaken = 0;
+
+          
+        }
         break;
       }
     case Switch2: {
         OrbitOledMoveTo(0, 0);
-        OrbitOledDrawString("Switch2");
+        OrbitOledDrawString("Change Switch 2");
+        OrbitOledUpdate();
+         int currentState = gameInputState.switches[1] ;
+         
+        while (timeTaken < timeLim && levelClear == 0) {
+          switchChanged (1, currentState);
+          delay (1);
+          timeTaken ++;
+        }
+
+        if (timeTaken >= timeLim )
+        { 
+          lose ();
+        }
+        if (levelClear == 1) {
+          timeTaken = 0;          
+        }
         break;
       }
   }
-  //OrbitOledClearBuffer();
+ 
   OrbitOledUpdate();
-  //delay(1000);
 
-  //OrbitOledClear();
 }
 
 

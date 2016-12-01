@@ -17,6 +17,7 @@ const uint32_t Switches[SwitchCount] = { PA_7, PA_6 };
 const uint32_t Buttons[ButtonCount] = { PD_2, PE_0, PUSH1, PUSH2 };
 const uint32_t Potentiometer = PE_3;
 int pageEnter = 0;
+int viewMenu = 1;
 
 struct stats {
   int hunger;
@@ -86,6 +87,8 @@ void loop() {
     menuPage();
   }
 
-  //Serial.print(sprite);
+ if(pageMain == 3){
+bopIt();
+}
 
 }

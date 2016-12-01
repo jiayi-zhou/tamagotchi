@@ -10,7 +10,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string>
-int viewMenu = 1;
+
 float value = 0;
 int menu[5] = {0};
 int pageNum;
@@ -55,7 +55,7 @@ void cleaningPage() {
   ShakeTick();
   uiInputTick();
   bool shaking = false;
-  
+
   switch (sprite) {
     case 0:
       tamaDoingThings (frog);
@@ -249,9 +249,9 @@ void selectionScreen(int pageNumber, int pageEnter) {
       }
       break;
 
-    case Cleaning: 
-    OrbitOledMoveTo(0, 0);
-  OrbitOledDrawString("Shake to clean!!");
+    case Cleaning:
+      OrbitOledMoveTo(0, 0);
+      OrbitOledDrawString("Shake to clean!!");
       while (changePage == 1) {
         cleaningPage();
       }
@@ -266,7 +266,14 @@ void selectionScreen(int pageNumber, int pageEnter) {
       break;
 
     case Games:
-      gamesPage();
+      OrbitOledMoveTo(40, 0);
+  OrbitOledDrawString("Bop It!");
+ 
+  OrbitOledUpdate();
+
+  delay (4000);
+   OrbitOledClearBuffer();
+      pageMain = 3;
       break;
 
   }
