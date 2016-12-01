@@ -91,7 +91,7 @@ void homeScreen() {
   statsCount ++;
   if (statsCount % 100 == 0) {
     if (stat.health - 1 > 0) {
-      stat.health -= 100;
+      stat.health -= 1;
     }else stat.health = 0;
     if (stat.hunger - 3 > 0) {
       stat.hunger -= 3;
