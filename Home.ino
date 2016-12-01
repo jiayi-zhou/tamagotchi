@@ -105,7 +105,7 @@ void homeScreen() {
   }
 
   if (stat.health == 0 || stat.hunger == 0){
-    pageMain = 4;}
+    pageMain = 3;}
 
 
 

@@ -333,7 +333,7 @@ void selectionScreen(int pageNumber, int pageEnter) {
 
       delay (4000);
       OrbitOledClearBuffer();
-      pageMain = 3;
+      pageMain = 2;
       break;
 
   }

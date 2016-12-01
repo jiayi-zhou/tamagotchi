@@ -60,7 +60,7 @@ void GameInit() {
   for (int i = 0; i < ButtonCount; ++i )
     pinMode(Buttons[i], INPUT);
 
-    pinMode(Buttons[2], INPUT_PULLUP);
+  pinMode(Buttons[2], INPUT_PULLUP);
 }
 
 static int pageMain = 0;
@@ -73,29 +73,28 @@ void setup() {
 
   stat.hunger = 100;
   stat.health = 100;
-  stat.happiness =100 ;
+  stat.happiness = 100 ;
   stat.hygiene = 100;
 
 }
 
-
-
-
 void loop() {
-  if (pageMain == 0) {
-    homeScreen();
-    OrbitOledClearBuffer();
+
+  switch (pageMain) {
+    case 0:
+      homeScreen();
+      OrbitOledClearBuffer();
+      break;
+    case 1:
+      menuPage();
+      break;
+    case 2:
+      bopIt();
+      break;
+    case 3:
+      death();
+      break;
   }
 
-  if (pageMain == 1) {
-    menuPage();
-  }
-
-  if (pageMain == 3) {
-    bopIt();
-  }
-
-  if (pageMain == 4) {
-    death ();}
 
 }
