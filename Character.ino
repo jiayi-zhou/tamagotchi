@@ -153,8 +153,14 @@ char Cupcake3 [] = {
   0x00, 0x00, 0x00, 0x10, 0x2C, 0x23, 0x21, 0x22, 0x22, 0x24, 0x24, 0x24, 0x1C, 0x00, 0x00, 0x00
 };
 
-struct tamaSprite {
-  char forw[], back[], eating[];
+char blank [] = {
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+char arrow [] = {
+0x00, 0x00, 0x00, 0x00, 0x20, 0x30, 0x38, 0x3C, 0x3C, 0x38, 0x30, 0x20, 0x00, 0x00, 0x00, 0x00,
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
 /**
@@ -214,8 +220,18 @@ void tamaDoingThings (char* tama ) {
 }
 
 int motionCount = 0;
+int feedingCount = 0;
 
-void tamaFeeding (char* tama1, char* tama2) {
+void tamaFeeding (char* tama1, char* tama2, int food){
+  char* food1;
+  char* food2;
+  char* food3;
+  if(feedingCount == 4000){
+
+     OrbitOledMoveTo(0, 0);
+     motionCount = 0;
+     OrbitOledDrawString("Health +30!");
+  }
   OrbitOledMoveTo(10, 8);
 
   if (motionCount < 500) {
@@ -230,33 +246,85 @@ void tamaFeeding (char* tama1, char* tama2) {
     motionCount = 0;
   }
 
+  switch(food){
+    case 0:
+      food1 = Cupcake1;
+      food2 = Cupcake2;
+      food3 = Cupcake3;
+      break;
+    case 1:
+      food1 = Bananas1;
+      food2 = Bananas2;
+      food3 = Bananas3;
+      break;
+    case 2:
+      food1 = Cheese1;
+      food2 = Cheese2;
+      food3 = Cheese3;
+      break;
+  }
+  OrbitOledMoveTo(32, 10);
+  if(feedingCount < 1000){
+    OrbitOledPutBmp(16, 16, food1);
+    feedingCount++;
+  }
+  else if(feedingCount >= 1000 && feedingCount < 2000){
+     OrbitOledPutBmp(16, 16, food2);
+     feedingCount++;
+  }
+  else if(feedingCount >= 2000 && feedingCount < 3000){
+     OrbitOledPutBmp(16, 16, food3);
+     feedingCount++;
+  }  
+  else if(feedingCount >= 3000 && feedingCount < 4000){
+     OrbitOledPutBmp(16, 16, blank);
+     feedingCount++;
+  }
+  else{
+    feedingCount = 0;
+  }
 }
-
 
 void printFood() {
   OrbitOledMoveTo(32, 10);
-  OrbitOledPutBmp(16, 16, Bananas1);
-  OrbitOledMoveTo(64, 10);
-  OrbitOledPutBmp(16, 16, Cheese1);
-  OrbitOledMoveTo(96, 10);
   OrbitOledPutBmp(16, 16, Cupcake1);
+  OrbitOledMoveTo(64, 10);
+  OrbitOledPutBmp(16, 16, Bananas1);
+  OrbitOledMoveTo(96, 10);
+  OrbitOledPutBmp(16, 16, Cheese1);
 }
 
-void printEevee() {
-  OrbitOledMoveTo(10, 0);
+int selectPos = 0;
 
-  if (motionCount < 500) {
-    OrbitOledPutBmp(32, 32, eevee1);
-    motionCount++;
+int foodSelect(int selectState){
+  if(selectState == 1){
+    OrbitOledMoveTo(0, 0);
+    OrbitOledDrawString("Pick a food.");
+
+    if (gameInputState.buttons[3].isRising && selectPos < 2) {
+      selectPos++;
+      OrbitOledClear();
+    }
+    if (gameInputState.buttons[2].isRising && selectPos > 0) {
+      selectPos--;
+      OrbitOledClear();
+    }
+    if(selectPos == 0){
+      OrbitOledMoveTo(32, 26);
+      OrbitOledPutBmp(16, 16, arrow);
+    }
+    else if(selectPos == 1){
+      OrbitOledMoveTo(64, 26);
+      OrbitOledPutBmp(16, 16, arrow);
+    }
+    else if(selectPos == 2){
+      OrbitOledMoveTo(96, 26);
+      OrbitOledPutBmp(16, 16, arrow);
+    }
   }
-  else if (motionCount >= 500 && motionCount < 1000) {
-    OrbitOledPutBmp(16, 16, eevee2);
-    motionCount++;
-  }
-  else {
-    motionCount = 0;
-  }
+  return selectPos;
 }
+
 
 
 

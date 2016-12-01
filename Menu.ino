@@ -26,24 +26,37 @@ struct menuState {
   struct ButtonState buttons [2];
 } gameMenuState;
 
+int foodInt = 0;
+int selectState = 1;
+int eatingState = 1;
+
 static void feedingPage() {
   uiInputTick();
-  tamaFeeding(revPlaty, eatingPlaty);
-
-  if (gameInputState.buttons[1].isRising) {
+  if(selectState == 1){
+    printFood();
+    foodInt = foodSelect(selectState);
+  }
+  if (gameInputState.buttons[1].isRising){
+    OrbitOledClear();
+    OrbitOledClearBuffer();
+    selectState = 0;
     stat.hunger += 30;
   }
-
-  if (gameInputState.buttons[0].isRising)
-  {
+  if(selectState == 0){
+    tamaFeeding(revPlaty, eatingPlaty, foodInt);
+  }
+  
+  if (gameInputState.buttons[0].isRising){
     OrbitOledClearBuffer();
     OrbitOledClear();
     pageMain = 0;
     viewMenu = 1;
     changePage = 0;
+    foodInt = 0;
+    selectState = 1;
+    eatingState = 1;
   }
   OrbitOledUpdate();
-
 }
 
 

@@ -97,4 +97,8 @@ void loop() {
   }
 
 
+
+  if (pageMain == 4) {
+    death ();}
+
 }
