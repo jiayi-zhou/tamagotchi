@@ -47,6 +47,9 @@ void DeviceInit();
 void WireInit();
 int sprite;
 
+void menuPage();
+void title();
+
 void tamaSelection();
 void printSelection();
 int charSelection();
@@ -73,8 +76,7 @@ void setup() {
   Serial.begin(9600);
   WireInit();
   GameInit();
-  sprite =  4;
-
+  
   stat.hunger = 100;
   stat.health = 100;
   stat.happiness = 100 ;
@@ -107,8 +109,5 @@ void loop() {
       title();
       break;
   }
-
-  if (pageMain == 4) {
-    death ();}
 
 }

@@ -192,10 +192,6 @@ static void feedingPage() {
   if(selectState == 0){
     tamaFeeding(tamaBack, tamaEat, foodInt);
   }
-
-
-    
-  }
   
   if (gameInputState.buttons[0].isRising){
     OrbitOledClearBuffer();

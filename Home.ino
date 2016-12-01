@@ -72,10 +72,8 @@ void homeScreen() {
     }else stat.hygiene = 0;
   }
 
-  if (stat.health == 0 || stat.hunger == 0){
+  if (stat.health <=0 || stat.hunger <= 0){
     pageMain = 3;}
-
-
 
 }
 
@@ -93,8 +91,9 @@ void death (){
   OrbitOledPutBmp(18, 18, angel);
   OrbitOledUpdate();
 
-  delay (5000);
+  delay (10000);
   pageMain = 0;
   setup();
+  pageMain =5;
   }
 
