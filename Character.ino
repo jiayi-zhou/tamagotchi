@@ -1,12 +1,3 @@
-#include <FillPat.h>
-#include <LaunchPad.h>
-#include <OrbitBoosterPackDefs.h>
-#include <OrbitOled.h>
-#include <OrbitOledChar.h>
-#include <OrbitOledGrph.h>
-#include <stdlib.h>
-#include <Wire.h>
-
 int xpos = 0;
 int ypos = 10;
 int count = 3;

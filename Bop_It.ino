@@ -1,16 +1,3 @@
-#include <stdint.h>
-#include <stdbool.h>
-
-#include  "LaunchPad.h"
-#include  "OrbitBoosterPackDefs.h"
-
-#include  "OrbitOled.h"
-#include  "OrbitOledGrph.h"
-#include  "OrbitOledChar.h"
-#include  "FillPat.h"
-
-#include  "delay.h"
-  
 int timeLim = 1500, timeTaken = 0, levelClear;
 
 typedef enum Command

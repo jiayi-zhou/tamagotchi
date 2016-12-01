@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <time.h>
 #include <string>
+#include <stdint.h>
+
+
 const uint32_t SwitchCount = 2;
 const uint32_t ButtonCount = 4;
 const uint32_t Switches[SwitchCount] = { PA_7, PA_6 };
@@ -66,7 +69,7 @@ void setup() {
   Serial.begin(9600);
   WireInit();
   GameInit();
-  sprite =  4;
+  sprite =  1;
 
   stat.hunger = 100;
   stat.health = 100;
@@ -91,5 +94,8 @@ void loop() {
   if (pageMain == 3) {
     bopIt();
   }
+
+  if (pageMain == 4) {
+    death ();}
 
 }

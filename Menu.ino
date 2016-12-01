@@ -1,16 +1,3 @@
-#include <FillPat.h>
-#include <LaunchPad.h>
-#include <OrbitBoosterPackDefs.h>
-#include <OrbitOled.h>
-#include <OrbitOledChar.h>
-#include <OrbitOledGrph.h>
-#include <stdlib.h>
-#include <Wire.h>
-#include <stdbool.h>
-#include <math.h>
-#include <stdio.h>
-#include <string>
-
 float value = 0;
 int menu[5] = {0};
 int pageNum;
