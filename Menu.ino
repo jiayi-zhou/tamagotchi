@@ -217,13 +217,12 @@ void cleaningPage() {
   OrbitOledPutBmp(16, 16, poop);
   ShakeTick();
   if (ShakeIsShaking()) {
-    Serial.print("shake");
     shaking = true;
   }
 
   if (shaking) {
     delay (1000);
-    stat.hygiene += 50;
+    stat.hygiene += 60;
     OrbitOledClearBuffer();
     tamaDoingThings(tamaForw);
     OrbitOledMoveTo(15,12);
@@ -352,7 +351,6 @@ static void gamesPage() {
 
 void menuPage() {
 
-  //Serial.print("menu\n");
   uiInputTick();
   if (viewMenu == 1) {
     OrbitOledMoveTo(0, 24);
@@ -393,7 +391,6 @@ void menuPage() {
 
     if (gameInputState.buttons[1].isRising) {
       pageEnter = 1;
-      //  Serial.print(pageEnter);
       viewMenu = 0;
       selectionScreen(currentMenuPage, pageEnter);
     }

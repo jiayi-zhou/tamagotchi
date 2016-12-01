@@ -23,7 +23,7 @@ char angel [] = {
 
 int statsCount = 0;
 void homeScreen() {
-  Serial.print("home\n");
+ 
   uiInputTick();
   printTama(tamaForw, tamaBack);
   homeBackground();
@@ -57,7 +57,7 @@ void homeScreen() {
 
   }
   statsCount ++;
-  if (statsCount % 100 == 0) {
+  if (statsCount % 20 == 0) {
     if (stat.health - 1 > 0) {
       stat.health -= 1;
     }else stat.health = 0;
@@ -92,7 +92,6 @@ void death (){
   OrbitOledUpdate();
 
   delay (10000);
-  pageMain = 0;
   setup();
   pageMain =5;
   }
