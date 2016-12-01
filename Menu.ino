@@ -43,7 +43,27 @@ static void feedingPage() {
     stat.hunger += 30;
   }
   if(selectState == 0){
-    tamaFeeding(revPlaty, eatingPlaty, foodInt);
+
+switch (sprite) {
+    case 0:
+       tamaFeeding(revFrog, eatingFrog, foodInt);
+      break;
+    case 1:
+       tamaFeeding(revFish, eatingFish, foodInt);
+      break;
+    case 2:
+       tamaFeeding(revPlaty, eatingPlaty, foodInt);
+      break;
+    case 3:
+      tamaFeeding(revJoe, eatingJoe, foodInt);
+      break;
+    case 4:
+       tamaFeeding(revAlien, eatingAlien, foodInt);
+      break;
+  }
+
+
+    
   }
   
   if (gameInputState.buttons[0].isRising){
