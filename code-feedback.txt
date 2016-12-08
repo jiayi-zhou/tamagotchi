@@ -1,0 +1,8 @@
+Use `strncpy` instead of `strcpy` to restrict number of characters printed into array. This is useful to prevent
+accidentally overflowing the buffer. There are equivalents for all string operation functions.
+
+Home.ino @ L61
+    The else cases should be new-lined here.
+
+Menu.ino @ L442
+    This case should probably call a function. It is pretty long...
