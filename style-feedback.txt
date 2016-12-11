@@ -1,3 +1,2 @@
-score: 9.0
+score: 9.5
 (-0.5) Inconsistency in indenation (example: in Home.ino @
-(-0.5) Inconsistent openining and closing brace placement throughout
